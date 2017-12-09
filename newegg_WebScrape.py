@@ -23,8 +23,6 @@ f.write(headers)
 
 # loops through each product and returns details
 for container in containers:
-    #    brand = container.div.div.a.img["title"]
-
     brand_container = container.find_all("a", {"class": "item-brand"})
     brand = brand_container[0].img["title"]
 
@@ -36,11 +34,6 @@ for container in containers:
 
     shipping_container = container.find_all("li", {"class": "price-ship"})
     shipping = shipping_container[0].text.strip()
-
-#   print("brand: " + brand)
-#   print("product_name: " + product_name)
-#   print("shipping: " + shipping)
-#   print("price: " + price)
 
     f.write(brand.replace(","," ") + "," + product_name.replace(",", "|") + "," + "$ " + price.replace(",","'") + "," + shipping + "\n")
 
