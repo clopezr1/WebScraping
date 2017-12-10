@@ -1,10 +1,10 @@
 from urllib.request import urlopen as uReq
 from bs4 import BeautifulSoup as soup
 
-steam_Url = 'https://www.newegg.com/Product/ProductList.aspx?Submit=ENE&N=100007709%204814%20601201888%20601203793%20601204369%20601296707%20601301599&IsNodeId=1&bop=And&PageSize=96&order=BESTMATCH'
+newegg_Url = 'https://www.newegg.com/Product/ProductList.aspx?Submit=ENE&N=100007709%204814%20601201888%20601203793%20601204369%20601296707%20601301599&IsNodeId=1&bop=And&PageSize=96&order=BESTMATCH'
 
 # Opens connections, grabs page
-uClient = uReq(steam_Url)
+uClient = uReq(newegg_Url)
 page_html = uClient.read()
 uClient.close()
 
@@ -23,6 +23,8 @@ f.write(headers)
 
 # loops through each product and returns details
 for container in containers:
+    #    brand = container.div.div.a.img["title"]
+
     brand_container = container.find_all("a", {"class": "item-brand"})
     brand = brand_container[0].img["title"]
 
@@ -34,6 +36,11 @@ for container in containers:
 
     shipping_container = container.find_all("li", {"class": "price-ship"})
     shipping = shipping_container[0].text.strip()
+
+#   print("brand: " + brand)
+#   print("product_name: " + product_name)
+#   print("shipping: " + shipping)
+#   print("price: " + price)
 
     f.write(brand.replace(","," ") + "," + product_name.replace(",", "|") + "," + "$ " + price.replace(",","'") + "," + shipping + "\n")
 
